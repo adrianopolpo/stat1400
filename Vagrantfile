@@ -15,12 +15,12 @@ Vagrant.configure("2") do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
   config.vm.network "forwarded_port", guest: 8888, host: 8888
-
+  config.vm.network "forwarded_port", guest: 587, host: 587
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
   # via 127.0.0.1 to disable public access
   # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-
+  config.vm.network "forwarded_port", guest: 25, host: 2525, host_ip: "127.0.0.1"
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network "private_network", ip: "192.168.33.10"
@@ -34,9 +34,9 @@ Vagrant.configure("2") do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "Labs", "/home/vagrant/Labs"
-  config.vm.synced_folder "data", "/home/vagrant/stat1400_data"
-  config.vm.synced_folder "scripts", "/home/vagrant/stat1400_scripts"
+
+  config.vm.synced_folder "data", "/home/vagrant/data"
+  config.vm.synced_folder "scripts", "/home/vagrant/scripts"
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
@@ -47,7 +47,7 @@ Vagrant.configure("2") do |config|
   #  Customize the number of cpus or cores on the VM:
     vb.cpus = "2"
   #   # Customize the amount of memory on the VM:
-    vb.memory = "4096"
+    vb.memory = "2048"
   end
   #
   # View the documentation for the provider you are using for more
@@ -56,18 +56,19 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script.
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    apt-get install
+    # apt-get install postfix mailutils
+    # sendmail
     mkdir -p /home/vagrant/Downloads
     chown -R vagrant:vagrant /home/vagrant/Downloads
     mkdir -p /home/vagrant/software
     chown -R vagrant:vagrant /home/vagrant/software
     cd Downloads
-    wget -nv https://repo.anaconda.com/archive/Anaconda3-2020.07-Linux-x86_64.sh
-    chmod 755 Anaconda3-2020.07-Linux-x86_64.sh
+    wget -nv https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
+    chmod 755 Anaconda3-2020.11-Linux-x86_64.sh
   # install conda the configure yes yes configure allows for automation
-    ./Anaconda3-2020.07-Linux-x86_64.sh -b -p /home/vagrant/software/anaconda3
+    ./Anaconda3-2020.11-Linux-x86_64.sh -b -p /home/vagrant/software/anaconda3
   #  /home/vagrant/software/anaconda3/bin/conda init
-   
+
   # cp conda.sh to /etc/profile.d to set conda environment in path
     cp /home/vagrant/software/anaconda3/etc/profile.d/conda.sh /etc/profile.d/.
     /home/vagrant/software/anaconda3/bin/conda update conda
