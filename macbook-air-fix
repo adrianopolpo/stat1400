@@ -1,6 +1,0 @@
-#!/bin/bash
-# change the amount of memory required from 4gb to 2gb for macbook air laptops
-
-sed -i "s/4096/2048/g" Vagrantfile
-
-grep 2048 Vagrantfile
