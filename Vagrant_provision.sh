@@ -38,6 +38,7 @@ sudo apt -y install r-base-core
 sudo apt -y install libczmq-dev libcurl4-openssl-dev libxml2 libxml2-dev 
 sudo apt -y install libssl-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev
 sudo apt -y install libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
+sudo apt -y install libudunits2-dev libcairo2-dev
 sudo R -e "install.packages(c('crayon', 'pbdZMQ', 'devtools', 'ggplot2'), repos = 'https://cran.rstudio.com/', dep = TRUE)"
 sudo R -e "devtools::install_github(paste0('IRkernel/', c('repr', 'IRdisplay', 'IRkernel')))"
 sudo R -e "IRkernel::installspec(user = FALSE)"
