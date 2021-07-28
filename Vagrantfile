@@ -8,7 +8,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "bento/ubuntu-20.04"
+  config.vm.box = "UWAHPC/stat1400"
+  config.vm.box_version = "2021.1.0"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -54,26 +55,7 @@ Vagrant.configure("2") do |config|
   # information on available options.
 
   # Enable provisioning with a shell script.
-  config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    # apt-get install postfix mailutils
-    # sendmail
-    mkdir -p /home/vagrant/Downloads
-    chown -R vagrant:vagrant /home/vagrant/Downloads
-    mkdir -p /home/vagrant/software
-    chown -R vagrant:vagrant /home/vagrant/software
-    cd Downloads
-    wget -nv https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
-    chmod 755 Anaconda3-2020.11-Linux-x86_64.sh
-  # install conda the configure yes yes configure allows for automation
-    ./Anaconda3-2020.11-Linux-x86_64.sh -b -p /home/vagrant/software/anaconda3
-  #  /home/vagrant/software/anaconda3/bin/conda init
-
-  # cp conda.sh to /etc/profile.d to set conda environment in path
-    cp /home/vagrant/software/anaconda3/etc/profile.d/conda.sh /etc/profile.d/.
-    /home/vagrant/software/anaconda3/bin/conda update conda
-#
-  SHELL
+  
 
   config.vm.provision "shell", privileged: false, path: "Vagrant_provision.sh"
 end
